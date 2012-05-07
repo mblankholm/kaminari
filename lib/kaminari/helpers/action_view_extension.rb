@@ -84,18 +84,38 @@ module Kaminari
     #
     #   <%= page_entries_info @posts, :entry_name => 'item' %>
     #   #-> Displaying items 6 - 10 of 26 in total
+    # def page_entries_info(collection, options = {})
+    #   entry_name = options[:entry_name] || (collection.empty?? 'entry' : collection.first.class.name.underscore.sub('_', ' '))
+    #   output = ""
+    #   if collection.num_pages < 2
+    #     output = case collection.total_count
+    #     when 0; "No #{entry_name.pluralize} found"
+    #     when 1; "Displaying <b>1</b> #{entry_name}"
+    #     else;   "Displaying <b>all #{collection.total_count}</b> #{entry_name.pluralize}"
+    #     end
+    #   else
+    #     offset = (collection.current_page - 1) * collection.limit_value
+    #     output = %{Displaying #{entry_name.pluralize} <b>%d&nbsp;-&nbsp;%d</b> of <b>%d</b> in total} % [
+    #       offset + 1,
+    #       offset + collection.current_page_count,
+    #       collection.total_count
+    #     ]
+    #   end
+    #   output.html_safe
+    # end
+    
     def page_entries_info(collection, options = {})
-      entry_name = options[:entry_name] || (collection.empty?? 'entry' : collection.first.class.name.underscore.sub('_', ' '))
+      entry_name = options[:entry_name] || (collection.empty?? t('views.pagination.entry') : collection.first.class.name.underscore.sub('_', ' '))
       output = ""
       if collection.num_pages < 2
         output = case collection.total_count
-        when 0; "No #{entry_name.pluralize} found"
-        when 1; "Displaying <b>1</b> #{entry_name}"
-        else;   "Displaying <b>all #{collection.total_count}</b> #{entry_name.pluralize}"
+        when 0; t('views.pagination.no_entries_found', :entry_name => entry_name.pluralize)
+        when 1; t('views.pagination.display_one', :entry_name => entry_name)
+        else;   t('views.pagination.display_all', :entry_name => entry_name, :count => collection.total_count)
         end
       else
         offset = (collection.current_page - 1) * collection.limit_value
-        output = %{Displaying #{entry_name.pluralize} <b>%d&nbsp;-&nbsp;%d</b> of <b>%d</b> in total} % [
+        output = %{"#{t('views.pagination.total', :entry_name => entry_name.pluralize), :count => "%s"}"} % [
           offset + 1,
           offset + collection.current_page_count,
           collection.total_count
