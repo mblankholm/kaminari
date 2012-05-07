@@ -115,11 +115,7 @@ module Kaminari
         end
       else
         offset = (collection.current_page - 1) * collection.limit_value
-        output = %{"#{t('views.pagination.total', :entry_name => entry_name.pluralize), :count => "%s"}"} % [
-          offset + 1,
-          offset + collection.current_page_count,
-          collection.total_count
-        ]
+        output = t('views.pagination.total', :entry_name => entry_name.pluralize), :first => (offset + 1), :second => (offset + collection.current_page_count), :third => (collection.total_count))
       end
       output.html_safe
     end

@@ -4,5 +4,5 @@ da:
       no_entries_found: "Ingen %{entry_name} fundet"
       display_one: "Viser <b>1</b> %{entry_name}"
       display_all: "Viser <b>alle %{count}</b> %{entry_name}"
-      total: "Viser #{entry_name} <b>%d&nbsp;-&nbsp;%d</b> ud af <b>%d</b> totalt"
+      total: "Viser #{entry_name} <b>%{first}&nbsp;-&nbsp;%{second}</b> ud af <b>%{third}</b> totalt"
       entry: "Post"
